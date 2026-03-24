@@ -10,8 +10,12 @@ const server = http.createServer((req, res) => {
 
    fs.readFile(filePath, (err, data) => {
       if (err) {
-         res.writeHead(404, { 'Content-Type': 'text/html' });
-         return res.end('<h1>404 - Page not found</h1>');
+         const pathNotFound = path.join(__dirname, '404.html');
+         fs.readFile(pathNotFound, (err2, data) => {
+            res.writeHead(404, { 'Content-Type': 'text/html' });
+            res.end(data);
+         });
+         return;
       }
 
       res.writeHead(200, { 'Content-Type': 'text/html' });
